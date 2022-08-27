@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Threading;
 using At.Matus.BevMetrology;
+using At.Matus.StatisticPod;
 
 namespace CiePlayground
 {
@@ -11,49 +12,23 @@ namespace CiePlayground
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
 
-            SpectralQuantity lamp1spline = SpectralQuantity.LoadFromCsv("SN_7-1108_Kalibrierung_FEL1000_2022_intpl1.csv");
-
-            lamp1spline.CalculateColor();
-
-
-            double uLamp = lamp1spline.ColorCoordinates.uPrime;
-            double vLamp = lamp1spline.ColorCoordinates.vPrime;
-
-            Console.WriteLine($"Lamp: uPrime: {uLamp:F6} vPrime: {vLamp:F6} ");
+            SpectralQuantity lamp = SpectralQuantity.LoadFromCsv("SN_8421_Kalibrierung_FEL1000_2022_intpl1.csv");
+            Console.WriteLine($"CCT = {lamp.ColorTemperature.Cct:F3} K  ({lamp.ColorTemperature.ChomaticityDifference:F9}   {lamp.ColorTemperature.Status})");
             Console.WriteLine();
 
-
-            double distanceMin = double.PositiveInfinity;
-            double Tlamp = double.NaN;
-
-            for (double T = 3000; T <= 3300; T = T+0.1)
+            StatisticPod sp = new StatisticPod("CCT / K");
+            SpectralQuantity lampR;
+            for (int i = 0; i < 100; i++)
             {
-                SpectralQuantity plank = new SpectralQuantity(T.ToString());
-                for (int l = 360; l <= 830; l++)
-                {
-                    plank.AddValue(l, BevCie.LPlanck(T, l));
-                }
-                plank.CalculateColor();
-
-                double distance = Distance(plank.ColorCoordinates.uPrime, plank.ColorCoordinates.vPrime, uLamp, vLamp);
-
-                if (distance < distanceMin)
-                {
-                    distanceMin = distance;
-                    Tlamp = T;
-                }
+                lampR = lamp.Randomize(0, 0.05);
+                Console.WriteLine($"CCT = {lampR.ColorTemperature.Cct:F3} K  ({lampR.ColorTemperature.ChomaticityDifference:F9}   {lampR.ColorTemperature.Status})");
+                sp.Update(lampR.ColorTemperature.Cct);
             }
-
-            Console.WriteLine($"CCT = {Tlamp:F1} K ({distanceMin:F7})");
+            Console.WriteLine();
+            Console.WriteLine(sp);
 
         }
 
-        public static double Distance(double up, double vp, double u, double v)
-        {
-            double us = (up - u) * (up - u);
-            double vs = (vp - v) * (vp - v);
-            return Math.Sqrt(us + vs * (4 / 9));
-        }
     }
 
 }
