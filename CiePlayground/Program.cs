@@ -12,7 +12,7 @@ namespace CiePlayground
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
 
-            SpectralQuantity lamp = SpectralQuantity.LoadFromCsv("SN_8421_Kalibrierung_FEL1000_2022_intpl1.csv");
+            SpectralQuantity lamp = SpectralQuantity.LoadFromCsv("SN_7-1108_Kalibrierung_FEL1000_2022_intpl1.csv");
             Console.WriteLine($"CCT = {lamp.ColorTemperature.Cct:F3} K  ({lamp.ColorTemperature.ChomaticityDifference:F9}   {lamp.ColorTemperature.Status})");
             Console.WriteLine();
 
@@ -20,7 +20,7 @@ namespace CiePlayground
             SpectralQuantity lampR;
             for (int i = 0; i < 100; i++)
             {
-                lampR = lamp.Randomize(0, 0.05);
+                lampR = lamp.Randomize(0, 0.005);
                 Console.WriteLine($"CCT = {lampR.ColorTemperature.Cct:F3} K  ({lampR.ColorTemperature.ChomaticityDifference:F9}   {lampR.ColorTemperature.Status})");
                 sp.Update(lampR.ColorTemperature.Cct);
             }
