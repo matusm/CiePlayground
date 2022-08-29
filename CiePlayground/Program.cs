@@ -21,11 +21,8 @@ namespace CiePlayground
             SpectralQuantity lampR;
             for (int i = 0; i < 50; i++)
             {
-<<<<<<< HEAD
-=======
                 lampR = lamp.Randomize(0, 0.005);
                 Console.WriteLine($"CCT = {lampR.ColorTemperature.Cct:F3} K  ({lampR.ColorTemperature.ChomaticityDifference:F9}   {lampR.ColorTemperature.Status})");
->>>>>>> 7b873f2963754d79ba96cbae6ea00be84cce30d6
                 sp.Update(lampR.ColorTemperature.Cct);
             }
             Console.WriteLine();
