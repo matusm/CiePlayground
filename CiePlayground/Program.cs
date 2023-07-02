@@ -12,15 +12,22 @@ namespace CiePlayground
         {
             CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
 
+            SpectralQuantity lamp = SpectralQuantity.FromCieIlluminantD50();
+
+
             //SpectralQuantity lamp = SpectralQuantity.LoadFromCsv("SN_7-1108_Kalibrierung_FEL1000_2022_noU.csv");
 
-            //Console.WriteLine($"Name:                     {lamp.Name}");
-            //Console.WriteLine($"Number of values:         {lamp.NumberOfValues}");
-            //Console.WriteLine($"Minimum wavelength:       {lamp.MinWavelength} nm");
-            //Console.WriteLine($"Maximum wavelength:       {lamp.MaxWavelength} nm");
-            //Console.WriteLine($"Color temperature:        {lamp.CCT} K");
-            //Console.WriteLine($"Distribution temperature: {lamp.TD} K");
-            //Console.WriteLine();
+            Console.WriteLine($"Name:                          {lamp.Name}");
+            Console.WriteLine($"Number of values:              {lamp.NumberOfValues}");
+            Console.WriteLine($"Minimum wavelength:            {lamp.MinWavelength} nm");
+            Console.WriteLine($"Maximum wavelength:            {lamp.MaxWavelength} nm");
+            Console.WriteLine($"Color temperature:             {lamp.CCT:F3} K");
+            Console.WriteLine($"Color temperature stat:        {lamp.ColorTemperature.Status}");
+            Console.WriteLine($"Color temperature cd:          {lamp.ColorTemperature.ChomaticityDifference:F4}");
+            Console.WriteLine($"Distribution temperature:      {lamp.TD:F3} K");
+            Console.WriteLine($"Distribution temperature stat: {lamp.DistributionTemperature.Status}");
+            Console.WriteLine($"Distribution temperature dev:  {lamp.DistributionTemperature.RelativeDeviation*100:F0} %");
+            Console.WriteLine();
 
             //// basic MC simulation
             //CovariancePod sp = new CovariancePod();
@@ -39,14 +46,6 @@ namespace CiePlayground
             //Console.WriteLine($"CCT of MC spectra: {sp.AverageValueOfX:F1} ({sp.StandardDeviationOfX:F1}) K");
             //Console.WriteLine($"T_D of MC spectra: {sp.AverageValueOfY:F1} ({sp.StandardDeviationOfY:F1}) K");
             //Console.WriteLine($"correlation coefficient: {sp.CorrelationCoefficient:F4}");
-
-            Console.WriteLine("Test");
-            for (int i = 300; i < 831; i=i+50)
-            {
-                Console.WriteLine($"{i,4} nm => {BevCie.CieIlluminantA(i):F6} : {100*BevCie.LPlanck(2855.496,i)/BevCie.LPlanck(2855.496, 560):F6}");
-            }
-            
-
 
         }
 
