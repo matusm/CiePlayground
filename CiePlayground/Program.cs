@@ -14,6 +14,10 @@ namespace CiePlayground
 
             SpectralQuantity lamp = SpectralQuantity.FromCieIlluminantD50();
 
+            BevCie.Validate();
+
+            Console.WriteLine();
+
 
             //SpectralQuantity lamp = SpectralQuantity.LoadFromCsv("SN_7-1108_Kalibrierung_FEL1000_2022_noU.csv");
 
