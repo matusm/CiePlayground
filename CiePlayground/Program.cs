@@ -14,7 +14,7 @@ namespace CiePlayground
 
             SpectralQuantity lamp = SpectralQuantity.FromCieIlluminantD50();
 
-            BevCie.Validate();
+            BevCie.ValidateDataTables();
 
             Console.WriteLine();
 
